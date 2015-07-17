@@ -54,8 +54,14 @@ public class HomeActivity extends Activity {
 		sp = getSharedPreferences("config", MODE_PRIVATE);
 
 		gv_home = (GridView) findViewById(R.id.gv_home);
-		gv_home.setAdapter(new GvAdapter());
+
 		gv_home.setOnItemClickListener(new GvClickListener());
+	}
+
+	@Override
+	protected void onStart() {
+		gv_home.setAdapter(new GvAdapter());
+		super.onStart();
 	}
 
 	private class GvAdapter extends BaseAdapter {
@@ -81,6 +87,13 @@ public class HomeActivity extends Activity {
 			TextView tv_homeitem_name = (TextView) view
 					.findViewById(R.id.tv_homeitem_name);
 			tv_homeitem_name.setText(funcLStrings[position]);
+			if (position == 0) {
+				String newName = getSharedPreferences("config", MODE_PRIVATE)
+						.getString("newname", "");
+				if (!TextUtils.isEmpty(newName)) {
+					tv_homeitem_name.setText(newName);
+				}
+			}
 			return view;
 		}
 
@@ -111,7 +124,11 @@ public class HomeActivity extends Activity {
 					showSetPwdDlg();
 				}
 				break;
-
+			case 8:
+				Intent intent = new Intent(HomeActivity.this,
+						SettingCenterActivity.class);
+				startActivity(intent);
+				break;
 			default:
 				break;
 			}
@@ -175,14 +192,15 @@ public class HomeActivity extends Activity {
 				public void onClick(View v) {
 					String pwd = pwdEt.getText().toString().trim();
 					if (TextUtils.isEmpty(pwd)) {
-						UIUtils.showToast(HomeActivity.this,getResources()
+						UIUtils.showToast(HomeActivity.this, getResources()
 								.getString(R.string.err_no_pwd));
 						return;
 					}
 
 					String savedPwd = sp.getString("pwd", "");
 					if (savedPwd.equals(MD5Utils.md5Encode(pwd))) {
-						Intent intent = new Intent(HomeActivity.this, LostFoundActivity.class);
+						Intent intent = new Intent(HomeActivity.this,
+								LostFoundActivity.class);
 						startActivity(intent);
 						dlg.dismiss();
 					} else {

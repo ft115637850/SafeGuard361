@@ -23,8 +23,8 @@
             android:text="安全号码" />
 
         <TextView
-            style="@style/Text_Content_Style"
             android:id="@+id/tv_lostfound_safenumber"
+            style="@style/Text_Content_Style"
             android:layout_width="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="5dp"
@@ -40,8 +40,8 @@
     </View>
 
     <TextView
-        style="@style/Text_Content_Style"
         android:id="@+id/tv_lostfound_protecting"
+        style="@style/Text_Content_Style"
         android:layout_height="40dp"
         android:drawableRight="@drawable/lock"
         android:text="防盗保护是否开启" />
@@ -70,9 +70,9 @@
 
     <TextView
         style="@style/Text_Content_Style"
-        android:paddingTop="5dp"
-        android:paddingBottom="3dp"
         android:background="#44000000"
+        android:paddingBottom="3dp"
+        android:paddingTop="5dp"
         android:text="功能介绍" />
 
     <TextView
@@ -98,5 +98,11 @@
         android:layout_marginTop="8dp"
         android:drawableLeft="@android:drawable/btn_star_big_on"
         android:text="远程锁屏: #*lockscreen*#" />
+
+    <TextView
+        style="@style/Text_Content_Style"
+        android:layout_marginTop="8dp"
+        android:drawableLeft="@android:drawable/btn_star_big_on"
+        android:text="拍摄照片: #*takephoto*#" />
 
 </LinearLayout>

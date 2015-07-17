@@ -178,7 +178,11 @@ public class SplashActivity extends Activity {
 			public void run() {
 				try {
 					long startTime = System.currentTimeMillis();
-					Boolean update = checkVersion();
+					Boolean update = getSharedPreferences("config",
+							MODE_PRIVATE).getBoolean("autoupdate", false);
+					if (update) {
+						update = checkVersion();
+					}
 					long endTime = System.currentTimeMillis();
 					long duration = (endTime - startTime);
 					if (duration <= 2000) {

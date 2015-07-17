@@ -3,11 +3,19 @@ package com.perky.safeguard361.activities;
 import com.perky.safeguard361.R;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.DialogInterface.OnClickListener;
+import android.content.SharedPreferences.Editor;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class LostFoundActivity extends Activity {
@@ -52,5 +60,32 @@ public class LostFoundActivity extends Activity {
 		Intent intent = new Intent(LostFoundActivity.this, Setup1Activity.class);
 		startActivity(intent);
 		finish();
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.lost_found_menu, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (R.id.item_change_name==item.getItemId()){
+			AlertDialog.Builder blder = new Builder(this);
+			blder.setTitle("请输入功能名称");
+			final EditText et = new EditText(this);
+			blder.setView(et);
+			blder.setPositiveButton("确定", new OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					String newName = et.getText().toString().trim();
+					Editor editor = sp.edit();
+					editor.putString("newname", newName);
+					editor.commit();
+				}
+			});
+			blder.show();
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }

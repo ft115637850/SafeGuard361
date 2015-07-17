@@ -19,7 +19,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -29,7 +29,6 @@
         <activity android:name="com.perky.safeguard361.activities.SplashActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -47,7 +46,11 @@
         </activity>
         <activity android:name="com.perky.safeguard361.activities.SelectContactsActivity" >
         </activity>
-        <activity android:name="com.perky.safeguard361.activities.PhotoActivity" android:theme="@android:style/Theme.Translucent" >
+        <activity
+            android:name="com.perky.safeguard361.activities.PhotoActivity"
+            android:theme="@android:style/Theme.Translucent" >
+        </activity>
+        <activity android:name="com.perky.safeguard361.activities.SettingCenterActivity" >
         </activity>
 
         <receiver android:name="com.perky.safeguard361.receivers.BootCompleteReceiver" >
@@ -60,13 +63,15 @@
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
-        <receiver android:name="com.perky.safeguard361.receivers.MyDeviceAdmin"  
+        <receiver
+            android:name="com.perky.safeguard361.receivers.MyDeviceAdmin"
             android:description="@string/device_admin_description"
             android:label="@string/device_admin"
             android:permission="android.permission.BIND_DEVICE_ADMIN" >
             <meta-data
                 android:name="android.app.device_admin"
                 android:resource="@xml/device_admin" />
+
             <intent-filter>
                 <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
             </intent-filter>
