@@ -116,6 +116,7 @@ public class HomeActivity extends Activity {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
+			Intent intent;
 			switch (position) {
 			case 0:
 				if (isPwdSet()) {
@@ -124,8 +125,13 @@ public class HomeActivity extends Activity {
 					showSetPwdDlg();
 				}
 				break;
+			case 1:
+				intent = new Intent(HomeActivity.this,
+						CallSmsSafeActivity.class);
+				startActivity(intent);
+				break;
 			case 8:
-				Intent intent = new Intent(HomeActivity.this,
+				intent = new Intent(HomeActivity.this,
 						SettingCenterActivity.class);
 				startActivity(intent);
 				break;

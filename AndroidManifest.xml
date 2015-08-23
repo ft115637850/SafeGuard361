@@ -7,7 +7,10 @@
     <uses-sdk
         android:minSdkVersion="10"
         android:targetSdkVersion="18" />
-
+    <instrumentation
+        android:name="android.test.InstrumentationTestRunner"
+        android:targetPackage="com.perky.safeguard361" >
+    </instrumentation>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -26,6 +29,9 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <uses-library android:name="android.test.runner" >
+        </uses-library>
+        
         <activity android:name="com.perky.safeguard361.activities.SplashActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,6 +51,8 @@
         <activity android:name="com.perky.safeguard361.activities.Setup4Activity" >
         </activity>
         <activity android:name="com.perky.safeguard361.activities.SelectContactsActivity" >
+        </activity>
+        <activity android:name="com.perky.safeguard361.activities.CallSmsSafeActivity" >
         </activity>
         <activity
             android:name="com.perky.safeguard361.activities.PhotoActivity"
