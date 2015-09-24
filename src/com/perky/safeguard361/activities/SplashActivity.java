@@ -37,7 +37,6 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources.NotFoundException;
 import android.graphics.BitmapFactory;
 import android.util.Log;
-import android.view.textservice.SentenceSuggestionsInfo;
 import android.widget.TextView;
 
 public class SplashActivity extends Activity {

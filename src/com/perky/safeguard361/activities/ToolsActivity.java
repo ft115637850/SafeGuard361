@@ -11,7 +11,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 public class ToolsActivity extends Activity {
 	private ProgressDialog pd;
@@ -20,7 +19,6 @@ public class ToolsActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tools);
-		pd = new ProgressDialog(this);
 	}
 
 	public void numberAddressQuery(View view) {
@@ -29,15 +27,17 @@ public class ToolsActivity extends Activity {
 	}
 
 	public void backUpSms(View view) {
+		pd = new ProgressDialog(this);
+		pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 		pd.setMessage("备份中...");
-		pd.setProgress(ProgressDialog.STYLE_HORIZONTAL);
+		pd.setTitle("提醒");
 		pd.show();
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				try {
 					SmsUtils.backUpSms(ToolsActivity.this,
-							new SmsUtils.BackupCallBack() {
+							new SmsUtils.SmsProgressCallBack() {
 
 								@Override
 								public void updateProgress(int progress) {
@@ -49,19 +49,17 @@ public class ToolsActivity extends Activity {
 									pd.setMax(size);
 								}
 							});
-					pd.dismiss();
 				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 					UIUtils.showToast(ToolsActivity.this, "备份失败");
 				} catch (IllegalStateException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 					UIUtils.showToast(ToolsActivity.this, "备份失败");
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 					UIUtils.showToast(ToolsActivity.this, "备份失败");
+				} finally {
+					pd.dismiss();
 				}
 			}
 
@@ -69,6 +67,34 @@ public class ToolsActivity extends Activity {
 	}
 
 	public void restoreSms(View view) {
+		pd = new ProgressDialog(this);
+		pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		pd.setMessage("还原中...");
+		pd.setTitle("提醒");
+		pd.show();
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					SmsUtils.restoreSms(ToolsActivity.this,
+							new SmsUtils.SmsProgressCallBack() {
 
+								@Override
+								public void updateProgress(int progress) {
+									pd.setProgress(progress);
+								}
+
+								@Override
+								public void setMax(int size) {
+									pd.setMax(size);
+								}
+							});
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					pd.dismiss();
+				}
+			}
+		}).start();
 	}
 }
