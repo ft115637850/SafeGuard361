@@ -2,7 +2,6 @@ package com.perky.safeguard361.activities;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.perky.safeguard361.R;
 import com.perky.safeguard361.domain.AppInfo;
 import com.perky.safeguard361.engine.AppInfoParser;

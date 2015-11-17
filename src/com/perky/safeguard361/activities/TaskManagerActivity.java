@@ -12,6 +12,7 @@ import com.perky.safeguard361.utils.UIUtils;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
+
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.format.Formatter;
@@ -43,6 +44,7 @@ public class TaskManagerActivity extends Activity {
 	private long availMem;
 	private long totalMem;
 
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -52,11 +54,11 @@ public class TaskManagerActivity extends Activity {
 		lv_task_mgr = (ListView) findViewById(R.id.lv_task_mgr);
 		pb_tasks = (ProgressBar) findViewById(R.id.pb_tasks);
 		tv_taskCount = (TextView) findViewById(R.id.tv_taskCount);
-
 		processCount = SystemInfoUtils.getProcessCount(this);
 		tv_tasksCount.setText("运行中进程:" + processCount + "个");
 		availMem = SystemInfoUtils.getAvailMem(this);
 		totalMem = SystemInfoUtils.getTotalMem();
+
 		tv_memorInfo.setText("可用/总内存:"
 				+ Formatter.formatFileSize(this, availMem) + "/"
 				+ Formatter.formatFileSize(this, totalMem));
@@ -128,6 +130,7 @@ public class TaskManagerActivity extends Activity {
 					public void run() {
 						pb_tasks.setVisibility(View.INVISIBLE);
 						taskMgrAdapter = new TaskMgrAdapter();
+
 						lv_task_mgr.setAdapter(taskMgrAdapter);
 					}
 				});
@@ -251,6 +254,7 @@ public class TaskManagerActivity extends Activity {
 				txt.setBackgroundColor(Color.GRAY);
 				txt.setTextColor(Color.WHITE);
 				txt.setText("系统进程有" + sysTaskInfos.size() + "个");
+
 				return txt;
 			} else if (position <= usrTaskInfos.size()) {
 				taskInfo = usrTaskInfos.get(position - 1);
