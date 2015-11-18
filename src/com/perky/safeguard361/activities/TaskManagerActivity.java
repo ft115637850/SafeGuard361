@@ -12,6 +12,8 @@ import com.perky.safeguard361.utils.UIUtils;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -43,7 +45,7 @@ public class TaskManagerActivity extends Activity {
 	private int processCount;
 	private long availMem;
 	private long totalMem;
-
+	private SharedPreferences sp;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,9 @@ public class TaskManagerActivity extends Activity {
 		lv_task_mgr = (ListView) findViewById(R.id.lv_task_mgr);
 		pb_tasks = (ProgressBar) findViewById(R.id.pb_tasks);
 		tv_taskCount = (TextView) findViewById(R.id.tv_taskCount);
+
+		sp = getSharedPreferences("config", MODE_PRIVATE);
+
 		processCount = SystemInfoUtils.getProcessCount(this);
 		tv_tasksCount.setText("运行中进程:" + processCount + "个");
 		availMem = SystemInfoUtils.getAvailMem(this);
@@ -110,6 +115,14 @@ public class TaskManagerActivity extends Activity {
 		});
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (taskMgrAdapter!=null){
+			taskMgrAdapter.notifyDataSetChanged();
+		}
+	}
+	
 	private void fillData() {
 		pb_tasks.setVisibility(View.VISIBLE);
 		new Thread() {
@@ -202,7 +215,8 @@ public class TaskManagerActivity extends Activity {
 	}
 
 	public void openSetting(View view) {
-
+		Intent intent = new Intent(this, TaskSettingActivity.class);
+		startActivity(intent);
 	}
 
 	static class ViewHolder {
@@ -216,7 +230,12 @@ public class TaskManagerActivity extends Activity {
 
 		@Override
 		public int getCount() {
-			return taskInfos.size() + 2;
+			boolean showsysproc = sp.getBoolean("showsysproc", true);
+			if (showsysproc) {
+				return taskInfos.size() + 2;
+			} else {
+				return usrTaskInfos.size() + 1;
+			}
 		}
 
 		@Override
