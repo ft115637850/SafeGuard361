@@ -15,7 +15,9 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="显示系统进程"/>
-    <CheckBox android:layout_width="fill_parent"
+    <CheckBox 
+        android:id="@+id/cb_autokill"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="锁屏清理进程"/>
 
