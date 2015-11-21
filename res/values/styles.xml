@@ -32,5 +32,8 @@
         <item name="android:layout_width">fill_parent</item>
         <item name="android:gravity">center_vertical</item>
     </style>
-
+    <style name="widget_text">
+        <item name="android:textSize">16.0dip</item>
+        <item name="android:textColor">@color/textColorPrimaryDark</item>
+    </style>
 </resources>

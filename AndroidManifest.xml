@@ -7,10 +7,12 @@
     <uses-sdk
         android:minSdkVersion="10"
         android:targetSdkVersion="18" />
+
     <instrumentation
         android:name="android.test.InstrumentationTestRunner"
         android:targetPackage="com.perky.safeguard361" >
     </instrumentation>
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -23,17 +25,17 @@
     <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
-    <uses-permission android:name="android.permission.WRITE_CALL_LOG"/>
-    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
-    <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-    <uses-permission android:name="android.permission.READ_SMS"/>
-    <uses-permission android:name="android.permission.WRITE_SMS"/>
-    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
-    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.WRITE_CALL_LOG" />
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.WRITE_SMS" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
 
     <application
         android:allowBackup="true"
@@ -42,17 +44,19 @@
         android:theme="@style/AppTheme" >
         <uses-library android:name="android.test.runner" >
         </uses-library>
-        
+
         <activity android:name="com.perky.safeguard361.activities.SplashActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name="com.perky.safeguard361.activities.HomeActivity" >
-            <intent-filter >
-                <action android:name="safeguard361.intent.HomeActivity"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+            <intent-filter>
+                <action android:name="safeguard361.intent.HomeActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity android:name="com.perky.safeguard361.activities.LostFoundActivity" >
@@ -79,10 +83,12 @@
         </activity>
         <activity android:name="com.perky.safeguard361.activities.SettingCenterActivity" >
         </activity>
-        <activity android:name="com.perky.safeguard361.activities.AppManagerActivity"></activity>
-        <activity android:name="com.perky.safeguard361.activities.TaskManagerActivity"></activity>
-        <activity android:name="com.perky.safeguard361.activities.TaskSettingActivity"></activity>
-        
+        <activity android:name="com.perky.safeguard361.activities.AppManagerActivity" >
+        </activity>
+        <activity android:name="com.perky.safeguard361.activities.TaskManagerActivity" >
+        </activity>
+        <activity android:name="com.perky.safeguard361.activities.TaskSettingActivity" >
+        </activity>
 
         <receiver android:name="com.perky.safeguard361.receivers.BootCompleteReceiver" >
             <intent-filter>
@@ -107,14 +113,30 @@
                 <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
             </intent-filter>
         </receiver>
+        <receiver android:name="com.perky.safeguard361.receivers.MyWidget" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/appwidget_info" />
+        </receiver>
+        <receiver android:name="com.perky.safeguard361.receivers.KillAllReceiver" android:exported="false">
+            <intent-filter>
+                <action android:name="com.perky.killall" />
+            </intent-filter>
+        </receiver>
 
         <service android:name="com.perky.safeguard361.services.LocationService" >
         </service>
-        <service android:name="com.perky.safeguard361.services.CallSmsSafeService">
+        <service android:name="com.perky.safeguard361.services.CallSmsSafeService" >
         </service>
-        <service android:name="com.perky.safeguard361.services.CallAddressService">
+        <service android:name="com.perky.safeguard361.services.CallAddressService" >
         </service>
-        <service android:name="com.perky.safeguard361.services.AutoKillService">
+        <service android:name="com.perky.safeguard361.services.AutoKillService" >
+        </service>
+        <service android:name="com.perky.safeguard361.services.UpdateWidgetService" >
         </service>
     </application>
 
