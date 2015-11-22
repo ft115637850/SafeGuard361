@@ -89,7 +89,9 @@
         </activity>
         <activity android:name="com.perky.safeguard361.activities.TaskSettingActivity" >
         </activity>
-
+        <activity android:name="com.perky.safeguard361.activities.AppLockAvtivity" >
+        </activity>
+       
         <receiver android:name="com.perky.safeguard361.receivers.BootCompleteReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

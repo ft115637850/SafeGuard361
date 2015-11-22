@@ -45,5 +45,16 @@
         android:text="短信还原"
         android:gravity="center_vertical"
         />
+    <TextView 
+        android:clickable="true"
+        android:onClick="openAppLock"
+        android:drawableLeft="@android:drawable/btn_star_big_on"
+        android:background="@drawable/list_selector"
+        android:layout_width="match_parent"
+        android:layout_height="40dip"
+        android:textSize="20sp"
+        android:text="程序加锁"
+        android:gravity="center_vertical"
+        />
 
 </LinearLayout>

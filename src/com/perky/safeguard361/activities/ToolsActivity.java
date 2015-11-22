@@ -97,4 +97,9 @@ public class ToolsActivity extends Activity {
 			}
 		}).start();
 	}
+
+	public void openAppLock(View view) {
+		Intent intent = new Intent(this, AppLockAvtivity.class);
+		startActivity(intent);
+	}
 }
