@@ -14,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -68,7 +70,7 @@ public class UnlockedFragment extends Fragment {
 		@Override
 		public View getView(final int position, View convertView,
 				ViewGroup parent) {
-			View view;
+			final View view;
 			ViewHolder holder;
 			if (convertView != null && convertView instanceof LinearLayout) {
 				view = convertView;
@@ -93,9 +95,33 @@ public class UnlockedFragment extends Fragment {
 
 				@Override
 				public void onClick(View v) {
-					dao.add(unlockedApps.get(position).getApkName());
-					unlockedApps.remove(position);
-					unlockAdapter.notifyDataSetChanged();
+					TranslateAnimation ta = new TranslateAnimation(
+							Animation.RELATIVE_TO_SELF, 0,
+							Animation.RELATIVE_TO_SELF, 1f,
+							Animation.RELATIVE_TO_SELF, 0,
+							Animation.RELATIVE_TO_SELF, 0);
+					ta.setDuration(300);
+					view.startAnimation(ta);
+					new Thread(){
+						public void run() {
+							try {
+								Thread.sleep(300);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							getActivity().runOnUiThread(new Runnable() {
+								@Override
+								public void run() {
+									dao.add(unlockedApps.get(position).getApkName());
+									unlockedApps.remove(position);
+									unlockAdapter.notifyDataSetChanged();
+								}
+							});
+							
+						};
+					}.start();
+					
 				}
 			});
 			return view;
