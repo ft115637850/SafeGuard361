@@ -30,6 +30,14 @@
     </com.perky.safeguard361.ui.SettingView>
 
     <com.perky.safeguard361.ui.SettingView
+        android:id="@+id/sv_lockapp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        perky:desc="程序锁已经打开#程序锁已经关闭"
+        perky:title="程序锁设置" >
+    </com.perky.safeguard361.ui.SettingView>
+    
+    <com.perky.safeguard361.ui.SettingView
         android:id="@+id/sv_showaddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

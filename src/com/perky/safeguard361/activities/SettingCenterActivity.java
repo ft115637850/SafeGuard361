@@ -3,6 +3,7 @@ package com.perky.safeguard361.activities;
 import com.perky.safeguard361.R;
 import com.perky.safeguard361.services.CallAddressService;
 import com.perky.safeguard361.services.CallSmsSafeService;
+import com.perky.safeguard361.services.WatchDogService;
 import com.perky.safeguard361.ui.SettingView;
 import com.perky.safeguard361.utils.SystemInfoUtils;
 
@@ -29,6 +30,11 @@ public class SettingCenterActivity extends Activity {
 	private SettingView sv_blacknumber;
 	private Intent callSmsSafeIntent;
 
+	/**
+	 * 程序锁
+	 */
+	private SettingView sv_lockapp;
+	private Intent watchDogIntent;
 	/**
 	 * 归属地显示
 	 */
@@ -80,6 +86,24 @@ public class SettingCenterActivity extends Activity {
 				}
 			}
 		});
+		
+		//程序锁
+		sv_lockapp = (SettingView) findViewById(R.id.sv_lockapp);
+		watchDogIntent = new Intent(this, WatchDogService.class);
+		sv_lockapp.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (sv_lockapp.isChecked()) {
+					sv_lockapp.setChecked(false);
+					// 停止拦截服务
+					stopService(watchDogIntent);
+				} else {
+					sv_lockapp.setChecked(true);
+					// 开启拦截服务
+					startService(watchDogIntent);
+				}
+			}
+		});
 
 		sv_showaddress = (SettingView) findViewById(R.id.sv_showaddress);
 		showAddressIntent = new Intent(this, CallAddressService.class);
@@ -109,6 +133,15 @@ public class SettingCenterActivity extends Activity {
 		} else {
 			sv_blacknumber.setChecked(false);
 		}
+		
+		boolean watchDogRunning = SystemInfoUtils.isServiceRunning(this,
+				"com.perky.safeguard361.services.WatchDogService");
+		if (watchDogRunning) {
+			sv_lockapp.setChecked(true);
+		} else {
+			sv_lockapp.setChecked(false);
+		}
+		
 		boolean showAddressRunning = SystemInfoUtils.isServiceRunning(this,
 				"com.perky.safeguard361.services.CallAddressService");
 		if (showAddressRunning) {
