@@ -12,6 +12,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.ContentObserver;
+import android.net.Uri;
+import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -23,6 +26,8 @@ public class WatchDogService extends Service {
 	private List<String> lockedApps;
 	private String tempStopProtectPackname;
 	private WatchDogReceiver receiver;
+	private AppLockDao dao;
+	private AppLockObserver observer;
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -32,14 +37,28 @@ public class WatchDogService extends Service {
 
 	@Override
 	public void onCreate() {
-		AppLockDao dao = new AppLockDao(this);
+		dao = new AppLockDao(this);
 		lockedApps = dao.findAll();
+
+		observer = new AppLockObserver(new Handler());
+		getContentResolver().registerContentObserver(
+				Uri.parse("content://com.perky.safeguard361.applock.update"), true,
+				observer);
+
 		receiver = new WatchDogReceiver();
 		IntentFilter filter = new IntentFilter(
 				"com.perky.safeguard361.stopapplock");
+		filter.addAction(Intent.ACTION_SCREEN_OFF);
+		filter.addAction(Intent.ACTION_SCREEN_ON);
 		registerReceiver(receiver, filter);
-		am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
 
+		am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+		startWatchDog();
+
+		super.onCreate();
+	}
+
+	private void startWatchDog() {
 		new Thread() {
 			public void run() {
 				flag = true;
@@ -47,7 +66,7 @@ public class WatchDogService extends Service {
 					Log.i(TAG, "Watchdog running");
 					runningTask = am.getRunningTasks(1).get(0);
 					String pkg = runningTask.topActivity.getPackageName();
-					if ((tempStopProtectPackname == null || !pkg.equals(tempStopProtectPackname))
+					if (!pkg.equals(tempStopProtectPackname)
 							&& lockedApps.contains(pkg)) {
 						Intent intent = new Intent(WatchDogService.this,
 								EnterPwdActivity.class);
@@ -64,7 +83,6 @@ public class WatchDogService extends Service {
 				}
 			};
 		}.start();
-		super.onCreate();
 	}
 
 	@Override
@@ -72,6 +90,8 @@ public class WatchDogService extends Service {
 		flag = false;
 		unregisterReceiver(receiver);
 		receiver = null;
+		getContentResolver().unregisterContentObserver(observer);
+		observer = null;
 		super.onDestroy();
 	}
 
@@ -81,8 +101,28 @@ public class WatchDogService extends Service {
 		public void onReceive(Context context, Intent intent) {
 			if ("com.perky.safeguard361.stopapplock".equals(intent.getAction())) {
 				tempStopProtectPackname = intent.getStringExtra("pkgName");
+			} else if (Intent.ACTION_SCREEN_OFF.equals(intent.getAction())) {
+				tempStopProtectPackname = null;
+				flag = false;
+			} else if (Intent.ACTION_SCREEN_ON.equals(intent.getAction())) {
+				if (flag == false) {
+					startWatchDog();
+				}
 			}
 		}
+	}
 
+	private class AppLockObserver extends ContentObserver {
+
+		public AppLockObserver(Handler handler) {
+			super(handler);
+		}
+
+		@Override
+		public void onChange(boolean selfChange) {
+			super.onChange(selfChange);
+			Log.i(TAG, "数据库数据变化了");
+			lockedApps = dao.findAll();
+		}
 	}
 }

@@ -58,4 +58,15 @@ public class EnterPwdActivity extends Activity {
 			et_password.startAnimation(aa);
 		}
 	}
+	
+	@Override
+	public void onBackPressed() {
+		Intent intent = new Intent();
+		intent.setAction("android.intent.action.MAIN" );
+		intent.addCategory("android.intent.category.HOME");
+		intent.addCategory("android.intent.category.DEFAULT");
+		intent.addCategory("android.intent.category.MONKEY");
+		startActivity(intent);
+		finish();
+	}
 }

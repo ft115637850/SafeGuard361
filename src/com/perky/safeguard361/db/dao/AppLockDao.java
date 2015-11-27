@@ -7,6 +7,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 
 import com.perky.safeguard361.db.AppLockDbOpenHelper;
 
@@ -49,6 +50,9 @@ public class AppLockDao {
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 		db.delete("info", "packname=?", new String[] { packName });
 		db.close();
+		ctx.getContentResolver().notifyChange(
+				Uri.parse("content://com.perky.safeguard361.applock.update"),
+				null);
 	}
 
 	public void add(String packName) {
@@ -57,5 +61,8 @@ public class AppLockDao {
 		values.put("packname", packName);
 		db.insert("info", null, values);
 		db.close();
+		ctx.getContentResolver().notifyChange(
+				Uri.parse("content://com.perky.safeguard361.applock.update"),
+				null);
 	}
 }
