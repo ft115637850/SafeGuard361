@@ -64,7 +64,7 @@ public class LockedFragment extends Fragment {
 
 		@Override
 		public int getCount() {
-			tv_status.setText("未加锁" + lockedApps.size() + "个");
+			tv_status.setText("已加锁" + lockedApps.size() + "个");
 			return lockedApps.size();
 		}
 

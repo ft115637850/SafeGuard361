@@ -38,7 +38,7 @@ public class AppLockDao {
 		SQLiteDatabase db = dbHelper.getReadableDatabase();
 		Cursor csr = db.query("info", new String[] { "packname" }, null, null,
 				null, null, null);
-		if (csr.moveToNext()) {
+		while (csr.moveToNext()) {
 			result.add(csr.getString(0));
 		}
 		csr.close();

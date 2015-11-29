@@ -28,6 +28,7 @@ public class WatchDogService extends Service {
 	private WatchDogReceiver receiver;
 	private AppLockDao dao;
 	private AppLockObserver observer;
+	private Intent intent;
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -42,8 +43,8 @@ public class WatchDogService extends Service {
 
 		observer = new AppLockObserver(new Handler());
 		getContentResolver().registerContentObserver(
-				Uri.parse("content://com.perky.safeguard361.applock.update"), true,
-				observer);
+				Uri.parse("content://com.perky.safeguard361.applock.update"),
+				true, observer);
 
 		receiver = new WatchDogReceiver();
 		IntentFilter filter = new IntentFilter(
@@ -53,6 +54,8 @@ public class WatchDogService extends Service {
 		registerReceiver(receiver, filter);
 
 		am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+		intent = new Intent(WatchDogService.this,
+				EnterPwdActivity.class);
 		startWatchDog();
 
 		super.onCreate();
@@ -63,13 +66,13 @@ public class WatchDogService extends Service {
 			public void run() {
 				flag = true;
 				while (flag) {
-					Log.i(TAG, "Watchdog running");
 					runningTask = am.getRunningTasks(1).get(0);
 					String pkg = runningTask.topActivity.getPackageName();
+					Log.i(TAG, "WatchDog is running");
 					if (!pkg.equals(tempStopProtectPackname)
 							&& lockedApps.contains(pkg)) {
-						Intent intent = new Intent(WatchDogService.this,
-								EnterPwdActivity.class);
+						Log.i(TAG, "start EnterPwdActivity");
+						
 						intent.putExtra("pkgName", pkg);
 						intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 						startActivity(intent);
