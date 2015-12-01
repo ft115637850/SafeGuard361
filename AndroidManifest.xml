@@ -36,7 +36,7 @@
     <uses-permission android:name="android.permission.WRITE_SMS" />
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
-    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.GET_TASKS" />
 
     <application
         android:allowBackup="true"
@@ -53,7 +53,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.perky.safeguard361.activities.HomeActivity" android:launchMode="singleTask">
+        <activity
+            android:name="com.perky.safeguard361.activities.HomeActivity"
+            android:launchMode="singleTask" >
             <intent-filter>
                 <action android:name="safeguard361.intent.HomeActivity" />
 
@@ -92,9 +94,13 @@
         </activity>
         <activity android:name="com.perky.safeguard361.activities.AppLockAvtivity" >
         </activity>
-        <activity android:name="com.perky.safeguard361.activities.EnterPwdActivity" android:launchMode="singleInstance">
+        <activity
+            android:name="com.perky.safeguard361.activities.EnterPwdActivity"
+            android:launchMode="singleInstance" >
         </activity>
-       
+        <activity android:name="com.perky.safeguard361.activities.TrafficMgrActivity" >
+        </activity>
+
         <receiver android:name="com.perky.safeguard361.receivers.BootCompleteReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -127,7 +133,9 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/appwidget_info" />
         </receiver>
-        <receiver android:name="com.perky.safeguard361.receivers.KillAllReceiver" android:exported="false">
+        <receiver
+            android:name="com.perky.safeguard361.receivers.KillAllReceiver"
+            android:exported="false" >
             <intent-filter>
                 <action android:name="com.perky.killall" />
             </intent-filter>
