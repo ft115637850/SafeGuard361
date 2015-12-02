@@ -29,13 +29,16 @@ public class LocationService extends Service {
 	public void onCreate() {
 		lm = (LocationManager) this.getSystemService(LOCATION_SERVICE);
 		Criteria crt = new Criteria();
-		crt.setAccuracy(Criteria.ACCURACY_COARSE);
+		crt.setAccuracy(Criteria.ACCURACY_FINE);
 		crt.setCostAllowed(true);
 		String provider = lm.getBestProvider(crt, true);
 		Log.i("provider", "?" + provider);
+		listener = new MyListener();
 		if (!TextUtils.isEmpty(provider)) {
-			listener = new MyListener();
 			lm.requestLocationUpdates(provider, 0, 0, listener);
+		}
+		else{
+			lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, listener);
 		}
 		super.onCreate();
 	}
