@@ -9,6 +9,7 @@ import com.perky.safeguard361.domain.AppInfo;
 import com.perky.safeguard361.engine.AppInfoParser;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class LockedFragment extends Fragment {
@@ -28,6 +30,15 @@ public class LockedFragment extends Fragment {
 	private List<AppInfo> lockedApps;
 	private AppLockDao dao;
 	private LockAdapter lockAdapter;
+	private ProgressBar pb_apps;
+	private Handler handler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			lockAdapter = new LockAdapter();
+			lv_locked.setAdapter(lockAdapter);
+			pb_apps.setVisibility(View.INVISIBLE);
+			lv_locked.setVisibility(View.VISIBLE);
+		};
+	};
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,22 +46,30 @@ public class LockedFragment extends Fragment {
 		View view = inflater.inflate(R.layout.fragment_locked, null);
 		tv_status = (TextView) view.findViewById(R.id.tv_status);
 		lv_locked = (ListView) view.findViewById(R.id.lv_locked);
+		pb_apps = (ProgressBar) view.findViewById(R.id.pb_apps);
 		return view;
 	}
 
 	@Override
 	public void onStart() {
-		lockedApps = new ArrayList<AppInfo>();
-		dao = new AppLockDao(getActivity());
-		List<AppInfo> apps = AppInfoParser.getAppInfos(getActivity());
-		for (AppInfo app : apps) {
-			if (dao.find(app.getApkName())) {
-				lockedApps.add(app);
+		pb_apps.setVisibility(View.VISIBLE);
+		lv_locked.setVisibility(View.INVISIBLE);
+		new Thread(){
+			@Override
+			public void run() {
+				lockedApps = new ArrayList<AppInfo>();
+				dao = new AppLockDao(getActivity());
+				List<AppInfo> apps = AppInfoParser.getAppInfos(getActivity());
+				for (AppInfo app : apps) {
+					if (dao.find(app.getApkName())) {
+						lockedApps.add(app);
+					}
+				}
+				handler.sendEmptyMessage(0);
+				super.run();
 			}
-		}
-
-		lockAdapter = new LockAdapter();
-		lv_locked.setAdapter(lockAdapter);
+		}.start();
+		
 		super.onStart();
 	}
 

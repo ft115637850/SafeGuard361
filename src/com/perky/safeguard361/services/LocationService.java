@@ -29,7 +29,7 @@ public class LocationService extends Service {
 	public void onCreate() {
 		lm = (LocationManager) this.getSystemService(LOCATION_SERVICE);
 		Criteria crt = new Criteria();
-		crt.setAccuracy(Criteria.ACCURACY_FINE);
+		crt.setAccuracy(Criteria.ACCURACY_COARSE);
 		crt.setCostAllowed(true);
 		String provider = lm.getBestProvider(crt, true);
 		Log.i("provider", "?" + provider);

@@ -9,13 +9,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#ff888888"
-        android:text="未加锁(x)个"
+        android:text="未加锁( )个"
         android:textColor="#ffffff" />
 
-    <ListView
-        android:id="@+id/lv_unlock"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-    </ListView>
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <ProgressBar
+            android:id="@+id/pb_apps"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:paddingTop="50dp"
+            android:visibility="visible" />
+
+        <ListView
+            android:id="@+id/lv_unlock"
+            android:fastScrollEnabled="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible" >
+        </ListView>
+    </FrameLayout>
 
 </LinearLayout>
