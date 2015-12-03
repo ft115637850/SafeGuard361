@@ -100,6 +100,8 @@
         </activity>
         <activity android:name="com.perky.safeguard361.activities.TrafficMgrActivity" >
         </activity>
+        <activity android:name="com.perky.safeguard361.activities.AntiVirusActivity" >
+        </activity>
 
         <receiver android:name="com.perky.safeguard361.receivers.BootCompleteReceiver" >
             <intent-filter>
