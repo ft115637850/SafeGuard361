@@ -98,6 +98,7 @@ public class SplashActivity extends Activity {
 		openDeviceAdmin();
 		// 拷贝资产目录下的数据库文件
 		copyDB("address.db");
+		copyDB("antivirus.db");
 		createShortCut();
 		tv_splash_version = (TextView) findViewById(R.id.tv_splash_version);
 		tv_splash_progress = (TextView) findViewById(R.id.tv_splash_progress);
