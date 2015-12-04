@@ -31,6 +31,8 @@ public class AntiVirusActivity extends Activity {
 	private TextView tv_scan_status;
 	private ImageView iv_scan;
 	private PackageManager pm;
+	private boolean runFlag;
+
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
@@ -78,9 +80,12 @@ public class AntiVirusActivity extends Activity {
 	}
 
 	public void scanVirus() {
+		runFlag = true;
 		new Thread() {
 			@Override
 			public void run() {
+				if (!runFlag)
+					return;
 				List<PackageInfo> pkgs = pm.getInstalledPackages(0);
 				Message msg = Message.obtain();
 				msg.what = SCAN_BEGIN;
@@ -129,6 +134,12 @@ public class AntiVirusActivity extends Activity {
 		String appName;
 		String description;
 		boolean isVirus;
+	}
+
+	@Override
+	protected void onDestroy() {
+		runFlag = false;
+		super.onDestroy();
 	}
 
 }

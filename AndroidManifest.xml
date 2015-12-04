@@ -100,7 +100,9 @@
         </activity>
         <activity android:name="com.perky.safeguard361.activities.TrafficMgrActivity" >
         </activity>
-        <activity android:name="com.perky.safeguard361.activities.AntiVirusActivity" >
+        <activity
+            android:name="com.perky.safeguard361.activities.AntiVirusActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" >
         </activity>
 
         <receiver android:name="com.perky.safeguard361.receivers.BootCompleteReceiver" >
