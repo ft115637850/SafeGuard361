@@ -15,6 +15,7 @@
 
     <ProgressBar
         android:id="@+id/tv_splash_progressBar"
+        style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/tv_splash_version"
