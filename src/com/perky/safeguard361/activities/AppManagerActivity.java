@@ -5,6 +5,7 @@ import java.util.List;
 import com.perky.safeguard361.R;
 import com.perky.safeguard361.domain.AppInfo;
 import com.perky.safeguard361.engine.AppInfoParser;
+import com.perky.safeguard361.utils.DensityUtil;
 import com.perky.safeguard361.utils.UIUtils;
 
 import android.app.Activity;
@@ -125,7 +126,7 @@ public class AppManagerActivity extends Activity implements OnClickListener {
 					int[] location = new int[2];
 					view.getLocationInWindow(location);
 					popupWin.showAtLocation(parent, Gravity.TOP + Gravity.LEFT,
-							60, location[1]);
+							DensityUtil.dip2px(getApplicationContext(), 60), location[1]);
 					ScaleAnimation sa = new ScaleAnimation(0.5f, 1f, 0.5f, 1f,
 							Animation.RELATIVE_TO_SELF, 0,
 							Animation.RELATIVE_TO_SELF, 0.5f);
