@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.lang.reflect.Field;
+
 import android.app.Application;
 import android.os.Build;
 import android.os.Environment;
@@ -33,9 +34,15 @@ public class SafeGuardApplication extends Application {
 				System.out.println("产生了异常");
 				Field[] fileds = Build.class.getDeclaredFields();
 				for (Field filed : fileds) {
-					System.out
-							.println(filed.getName() + "--" + filed.get(null));
-					sw.write(filed.getName() + "--" + filed.get(null) + "\n");
+					try {
+						System.out.println(filed.getName() + "--"
+								+ filed.get(null));
+						sw.write(filed.getName() + "--" + filed.get(null)
+								+ "\n");
+					} catch (Exception e) {
+						e.printStackTrace();
+						continue;
+					}
 				}
 				ex.printStackTrace(pw);
 				File file = new File(Environment.getExternalStorageDirectory(),

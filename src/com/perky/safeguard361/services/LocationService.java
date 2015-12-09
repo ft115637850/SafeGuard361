@@ -3,18 +3,23 @@ package com.perky.safeguard361.services;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
+import com.baidu.location.LocationClientOption.LocationMode;
+
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.telephony.SmsManager;
+import android.util.Log;
 
 public class LocationService extends Service {
 	// private LocationManager lm;
 	// private MyListener listener;
+	private static final String TAG = "LocationService";
 	private LocationClient mLocationClient;
-	private MyLocationListenner myListener;
+	private MyLocationListenner myListener = new MyLocationListenner();
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -35,9 +40,21 @@ public class LocationService extends Service {
 		 * lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0,
 		 * listener); }
 		 */
+		Log.i(TAG, "registerLocationListener");
 		mLocationClient = new LocationClient(getApplicationContext()); // 声明LocationClient类
 		mLocationClient.registerLocationListener(myListener); // 注册监听函数
+		initLocation();
+		mLocationClient.start();
 		super.onCreate();
+	}
+
+	private void initLocation() {
+		LocationClientOption option = new LocationClientOption();
+		option.setLocationMode(LocationMode.Hight_Accuracy);// 可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
+		option.setOpenGps(true);// 可选，默认false,设置是否使用gps
+		option.setLocationNotify(true);// 可选，默认false，设置是否当gps有效时按照1S1次频率输出GPS结果
+		option.SetIgnoreCacheException(false);// 可选，默认false，设置是否收集CRASH信息，默认收集
+		mLocationClient.setLocOption(option);
 	}
 
 	/*
@@ -77,6 +94,7 @@ public class LocationService extends Service {
 
 		@Override
 		public void onReceiveLocation(BDLocation location) {
+			Log.i(TAG, "onReceiveLocation");
 			StringBuilder sb = new StringBuilder();
 			sb.append("Altitude:" + location.getAltitude() + "\n");
 			sb.append("Latitude:" + location.getLatitude() + "\n");
